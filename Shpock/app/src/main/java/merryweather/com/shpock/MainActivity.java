@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import merryweather.com.shpock.di.ComponentManager;
 import merryweather.com.shpock.model.Item;
 
@@ -38,6 +39,8 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     private ItemsAdapter mAdapter;
 
+    private Unbinder mUnbinder;
+
     @ProvidePresenter
     public MainPresenter providePresenter() {
         return mPresenter;
@@ -48,7 +51,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         ComponentManager.getInstance().getActivityComponent(this).inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         mList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ItemsAdapter();
         mList.setAdapter(mAdapter);
@@ -74,5 +77,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void showToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }

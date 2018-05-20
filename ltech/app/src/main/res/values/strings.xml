@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Ltech</string>
+
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="time">Time</string>
+    <string name="refresh">REFRESH</string>
+</resources>

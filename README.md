@@ -14,3 +14,10 @@ Azurpos test assignment. Code demonstrates the following
 * AIDL for interprocess communication
 * Android notifications
 * RxJava2 periodic polling
+
+## Shpock
+Shpock test assignment. Code demonstrates the following
+* Get last known location and location permissions granting
+* MVP arhcitecture using MOXY
+* Wiring retrofit2 and gson using dagger2
+* Service injection into presenter

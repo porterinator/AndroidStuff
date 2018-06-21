@@ -15,7 +15,7 @@ Azurpos test assignment. Code demonstrates the following
 * Android notifications
 * RxJava2 periodic polling
 
-## Shpock
+## Adorable
 Shpock test assignment. Code demonstrates the following
 * Get last known location and location permissions granting
 * MVP arhcitecture using MOXY

@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -18,8 +17,6 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import merryweather.com.adorable.api.OpenWeatherMapService;
 import merryweather.com.adorable.model.WeatherResponse;
@@ -40,6 +37,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
 
+    private Location mCurrentLocation;
 
     @Inject
     public MainPresenter(OpenWeatherMapService service, Context context) {
@@ -53,7 +51,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     @SuppressWarnings({"MissingPermission"})
-    public void obtainLastaKnownLocation() {
+    public void obtainLastKnownLocation() {
         /**
          * threr is a possibility to get finer location
          * LocationRequest request = LocationRequest.create() //standard GMS LocationRequest
@@ -68,7 +66,8 @@ public class MainPresenter extends MvpPresenter<MainView> {
                 locationProvider.getLastKnownLocation()
                         .timeout(10, TimeUnit.SECONDS)
                         .subscribe(location -> {
-                            getCurrentWeatherAndForecast(location.getLatitude(), location.getLongitude());
+                            mCurrentLocation = location;
+                            getCurrentWeatherAndForecast(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                         }, throwable -> {
                             if (throwable instanceof TimeoutException) {
                                 getViewState().showToast("Unable to get last known location");
@@ -81,10 +80,40 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
 
+    public void getCurrentWeatherAndForecast() {
+        getCurrentWeatherAndForecast(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+    }
+
+    public void getWeatherAndForecastWithCityName(String city) {
+        mDisposable.add(
+                mService.getaWeatherWithName(city)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((weatherResponse) -> {
+                            mCurreWeather = weatherResponse;
+                            getViewState().displayCurrentWeather(mCurreWeather);
+                        }, throwable -> {
+                            throwable.printStackTrace();
+                            getViewState().showToast("Unable to get current weather");
+                        })
+        );
+        mDisposable.add(
+                mService.get3DayForecastWithName(city)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((forecastResponse) -> {
+                            getViewState().display3DayForecast(forecastResponse.list);
+                        }, throwable -> {
+                            throwable.printStackTrace();
+                            getViewState().showToast("Unable to get weather forecast");
+                        })
+        );
+    }
+
     @Override
     protected void onFirstViewAttach() {
         if (permissionsGranted()) {
-            obtainLastaKnownLocation();
+            obtainLastKnownLocation();
         } else {
             getViewState().requestPermissions();
         }
@@ -118,7 +147,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     public void onPermissionsGranted() {
-        obtainLastaKnownLocation();
+        obtainLastKnownLocation();
     }
 
     @Override

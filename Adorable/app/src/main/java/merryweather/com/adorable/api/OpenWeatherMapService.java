@@ -30,4 +30,8 @@ public class OpenWeatherMapService {
         return mApi.get3DayForecastWithCoords(lat, lon);
     }
 
+    public Single<ForecastResponse> get3DayForecastWithName(String cityName){
+        return mApi.get3DayForecastWithName(cityName);
+    }
+
 }

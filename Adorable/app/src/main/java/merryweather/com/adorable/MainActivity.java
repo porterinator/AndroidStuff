@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -104,5 +107,34 @@ public class MainActivity extends BaseActivity implements MainView {
                 showToast("Missing required permissions");
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.cities_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.currentLocation :
+                mPresenter.getCurrentWeatherAndForecast();
+                break;
+            case R.id.london :
+                mPresenter.getWeatherAndForecastWithCityName("London");
+                break;
+            case R.id.paris :
+                mPresenter.getWeatherAndForecastWithCityName("Paris");
+                break;
+            case R.id.tokyo :
+                mPresenter.getWeatherAndForecastWithCityName("Tokyo");
+                break;
+            case R.id.newYork :
+                mPresenter.getWeatherAndForecastWithCityName("New York");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

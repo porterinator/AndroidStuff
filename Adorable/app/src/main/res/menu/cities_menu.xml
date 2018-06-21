@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/currentLocation" android:title="Current location"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/london" android:title="London"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/paris" android:title="Paris"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/tokyo" android:title="Tokyo"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/newYork" android:title="New York"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>

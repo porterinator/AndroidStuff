@@ -16,7 +16,14 @@ Azurpos test assignment. Code demonstrates the following
 * RxJava2 periodic polling
 
 ## Adorable
-Shpock test assignment. Code demonstrates the following
+Adorable test assignment. Code demonstrates the following
 * Get last known location and location permissions granting
 * MVP arhcitecture using MOXY
 * Wiring retrofit2 and gson using dagger2
+
+## Tech45
+Tech45 test assignment. Code demonstrates the following
+* Kotlin
+* MVVM arhcitecture android jetpack
+* Wiring retrofit2 and gson using dagger2
+* Recursion

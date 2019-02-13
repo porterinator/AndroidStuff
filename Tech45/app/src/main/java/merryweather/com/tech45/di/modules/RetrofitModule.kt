@@ -64,5 +64,5 @@ class RetrofitModule {
 
     companion object {
         const val APP_URL = "https://contact.taxsee.com/Contacts.svc/"
-    }
+}
 }
